@@ -1,16 +1,47 @@
-class Solution {
+
+class Solution
+{
 public:
-    vector<string> generateParenthesis(int n) {
-        vector<string> res;
-        addingpar(res, "", n, 0);
-        return res;
-    }
-    void addingpar(vector<string> &v, string str, int n, int m){
-        if(n==0 && m==0) {
-            v.push_back(str);
-            return;
+    string simplifyPath(string path)
+    {
+
+        stack<string> st;
+        string res;
+
+        for (int i = 0; i < path.size(); ++i)
+        {
+            if (path[i] == '/')
+                continue;
+            string temp;
+
+            while (i < path.size() && path[i] != '/')
+            {
+
+                temp += path[i];
+                ++i;
+            }
+            if (temp == ".")
+                continue;
+
+            else if (temp == "..")
+            {
+                if (!st.empty())
+                    st.pop();
+            }
+            else
+
+                st.push(temp);
         }
-        if(m > 0){ addingpar(v, str+")", n, m-1); }
-        if(n > 0){ addingpar(v, str+"(", n-1, m+1); }
+
+        while (!st.empty())
+        {
+            res = "/" + st.top() + res;
+            st.pop();
+        }
+
+        if (res.size() == 0)
+            return "/";
+
+        return res;
     }
 };
